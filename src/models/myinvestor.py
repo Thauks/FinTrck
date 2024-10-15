@@ -14,10 +14,10 @@ class MyLoginInfo:
 @dataclass
 class MyEndpoints:
     login: str
-    cuentas: str
-    indexadas: str
-    movimientos: str
-    posiciones: str
+    accounts: str
+    indexed: str
+    movements: str
+    positions: str
 
 @dataclass
 class MyinvestorConfig:

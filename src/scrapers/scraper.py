@@ -9,7 +9,7 @@ class Scraper(ABC):
         pass
     
     @abstractmethod
-    def fetch_liquid(self):
+    def fetch_cash(self):
         pass
     
     @abstractmethod
@@ -30,4 +30,8 @@ class Scraper(ABC):
     
     @abstractmethod
     def fetch_pension_funds(self):
+        pass
+    
+    @abstractmethod
+    def fetch_real_estate(self):
         pass
