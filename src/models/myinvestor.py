@@ -18,6 +18,7 @@ class MyEndpoints:
     indexed: str
     movements: str
     positions: str
+    real_state: str
 
 @dataclass
 class MyinvestorConfig:

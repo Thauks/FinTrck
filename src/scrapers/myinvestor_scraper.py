@@ -3,15 +3,21 @@ from dataclasses import asdict
 
 from src.scrapers.scraper import Scraper
 from src.models.myinvestor import MyinvestorConfig
+from src.models.financial import FinProdType, FinProd
+from src.models.platforms import Platform
 
 class MyinvestorScraper(Scraper):
     def __init__(self, config: MyinvestorConfig):
         super().__init__(config)
         self.session = None
+        self.platform = Platform.MYINVESTOR
         
     def login(self):
         self.session = self._setup_session(self.config.endpoints.login, self.config.login_info)
 
+    def logout(self):
+        self.session.close()
+    
     def fetch_cash(self):
         r = self.session.get(self.config.endpoints.accounts)
         return sum([acc['importeCuenta'] for acc in r.json()])
@@ -34,7 +40,8 @@ class MyinvestorScraper(Scraper):
         pass
     
     def fetch_real_estate(self):
-        pass
+        r = self.session.get(self.config.endpoints.real_state)
+        return sum([p['investedQuantity'] for p in r.json()])
     
     def _setup_session(self, login_url, payload):
         # Create a new aiohttp.ClientSession object
