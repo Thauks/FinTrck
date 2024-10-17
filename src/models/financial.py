@@ -16,7 +16,6 @@ class FinProd:
     type: str
     initial_value: float
     value: float
-    roi: float
     
     @property
     def roi(self) -> float:
