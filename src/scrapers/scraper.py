@@ -42,23 +42,25 @@ class Scraper(ABC):
     def fetch_real_estate(self):
         pass
     
-    @staticmethod
-    def _create_fin_prod_from_json(data: Dict[str, Any], mapping: Dict[str, str]) -> FinProd:
+    def _create_fin_prod_from_json(self, prod_type: str, json_data: Dict[str, Any]) -> 'FinProd':
         """
-        Converts a dictionary representing a financial product to a FinProd instance
-        using a mapping from FinProd attributes to external data keys.
+        Creates a FinProd object from JSON data based on the product type and data mapping.
 
         Args:
-            data (Dict[str, Any]): A dictionary containing the attributes for the FinProd.
-            mapping (Dict[str, str]): A mapping of FinProd attributes to keys in the external data model.
+            prod_type (str): The type of financial product (e.g., 'realestate', 'cash', 'stock').
+            json_data (Dict[str, Any]): The JSON data to map to a FinProd object.
 
         Returns:
-            FinProd: An instance of FinProd populated with the data.
+            FinProd: A populated FinProd instance.
         """
+        # Fetch the appropriate mapping from the config
+        mapping = self.config.data_mapping[prod_type]
+        
+        # Map JSON fields to FinProd attributes using the mapping
         return FinProd(
-            id=data.get(mapping['id'], ''),
-            name=data.get(mapping['name'], ''),
-            type=mapping['type'],
-            initial_value=data.get(mapping['initial_value'], 0.0),
-            value=data.get(mapping['value'])
+            id=json_data.get(mapping['id'], ''),
+            name=json_data.get(mapping['name'], ''),
+            type=prod_type,
+            initial_value=json_data.get(mapping['initial_value'], 0.0),
+            value=json_data.get(mapping['value'], 0.0)
         )
