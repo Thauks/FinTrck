@@ -1,0 +1,51 @@
+login_info:
+  accessType: 'USERNAME'
+  code: null
+  customerId: '{{DNI}}'
+  deviceId: '{{MYINVESTOR_DEVICE}}'
+  otpId: null
+  password: '{{MYINVESTOR_PWD}}'
+  plataform: null 
+endpoints:
+  login: 'https://app.myinvestor.es/ms-keycloak/api/v1/auth/token'
+  accounts: 'https://app.myinvestor.es/myinvestor-server/rest/protected/cuentas/efectivo'
+  indexed: 'https://app.myinvestor.es/myinvestor-server/rest/protected/indexadas/{}'
+  movements: 'https://app.myinvestor.es/myinvestor-server/rest/protected/cuentas/consulta-movimientos-efectivo'
+  positions: 'https://app.myinvestor.es/myinvestor-server/rest/protected/posiciones'
+  real_state: 'https://app.myinvestor.es/urbanitae/v1/users/U109574/allInvestments'
+data_mapping:
+  cash:
+    id: ''
+    name: ''
+    initial_value: ''
+    value: ''
+  stock:
+    id: ''
+    name: ''
+    initial_value: ''
+    value: ''
+  etf:
+    id: ''
+    name: ''
+    initial_value: ''
+    value: ''
+  fund:
+    id: ''
+    name: ''
+    initial_value: ''
+    value: ''
+  crypto:
+    id: ''
+    name: ''
+    initial_value: ''
+    value: ''
+  bond:
+    id: ''
+    name: ''
+    initial_value: ''
+    value: ''
+  realestate:
+    id: 'projectId'
+    name: 'projectName'
+    initial_value: 'investedQuantity'
+    value: 'investedQuantity'

@@ -162,4 +162,3 @@ cython_debug/
 #.idea/
 
 # do not commit the files that contain password or other sensitive information
-config/platforms/*

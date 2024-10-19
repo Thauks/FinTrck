@@ -24,4 +24,5 @@ class MyEndpoints:
 class MyinvestorConfig:
     login_info: MyLoginInfo
     endpoints: MyEndpoints
+    data_mapping: Optional[dict]
     

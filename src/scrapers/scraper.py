@@ -58,8 +58,8 @@ class Scraper(ABC):
         
         # Map JSON fields to FinProd attributes using the mapping
         return FinProd(
-            id=json_data.get(mapping['id'], ''),
-            name=json_data.get(mapping['name'], ''),
+            id=str.lower(json_data.get(mapping['id'], '')),
+            name=str.lower(json_data.get(mapping['name'], '')),
             type=prod_type,
             initial_value=json_data.get(mapping['initial_value'], 0.0),
             value=json_data.get(mapping['value'], 0.0)

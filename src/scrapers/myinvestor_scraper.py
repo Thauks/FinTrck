@@ -41,8 +41,8 @@ class MyinvestorScraper(Scraper):
     
     def fetch_real_estate(self):
         r = self.session.get(self.config.endpoints.real_state)
-        return sum([p['investedQuantity'] for p in r.json()])
-    
+        return [self._create_fin_prod_from_json(FinProdType.REAL_ESTATE, l) for l in r.json()]
+        
     def _setup_session(self, login_url, payload):
         # Create a new aiohttp.ClientSession object
         session = requests.Session()
