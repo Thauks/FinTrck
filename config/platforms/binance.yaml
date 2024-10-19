@@ -1,0 +1,6 @@
+Binance:
+  login_info:
+    usuario: null
+    contrasena: null
+  endpoints:
+    login: null
