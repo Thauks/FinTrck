@@ -15,7 +15,7 @@ class MyLoginInfo:
 class MyEndpoints:
     login: str
     accounts: str
-    indexed: str
+    portfolios: str
     movements: str
     positions: str
     real_state: str

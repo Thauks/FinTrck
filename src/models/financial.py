@@ -8,14 +8,17 @@ class FinProdType:
     CRYPTO = "crypto"
     BOND = "bond"
     REAL_ESTATE = "realestate"
+    PORTFOLIO = "portfolio"
 
 @dataclass
 class FinProd:
     id: str
     name: str
     type: str
+    platform: str
     initial_value: float
     value: float
+    labels: str
     
     @property
     def roi(self) -> float:
@@ -23,4 +26,4 @@ class FinProd:
         return 0.0 if self.initial_value == 0 else (self.value - self.initial_value) / self.initial_value * 100
     
     def __repr__(self):
-        return f"FinProd(id={self.id}, name={self.name}, type={self.type}, initial_value={self.initial_value}, value={self.value}, roi={self.roi:.2f}%)"
+        return f"FinProd(id={self.id}, name={self.name}, type={self.type}, platform={self.platform}, initial_value={self.initial_value}, value={self.value}, roi={self.roi:.2f}%)"

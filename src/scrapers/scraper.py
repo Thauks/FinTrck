@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Any
-from src.models.financial import FinProd, FinProdType 
+from src.models.financial import FinProd 
 
 class Scraper(ABC):
     def __init__(self, config):
@@ -42,7 +42,7 @@ class Scraper(ABC):
     def fetch_real_estate(self):
         pass
     
-    def _create_fin_prod_from_json(self, prod_type: str, json_data: Dict[str, Any]) -> 'FinProd':
+    def _create_fin_prod_from_json(self, prod_type: str, platform: str, json_data: Dict[str, Any], labels='') -> 'FinProd':
         """
         Creates a FinProd object from JSON data based on the product type and data mapping.
 
@@ -55,12 +55,14 @@ class Scraper(ABC):
         """
         # Fetch the appropriate mapping from the config
         mapping = self.config.data_mapping[prod_type]
-        
+
         # Map JSON fields to FinProd attributes using the mapping
         return FinProd(
-            id=str.lower(json_data.get(mapping['id'], '')),
-            name=str.lower(json_data.get(mapping['name'], '')),
+            id=str.lower(str(json_data.get(mapping['id'], ''))),
+            name=str.lower(str(json_data.get(mapping['name'], ''))),
             type=prod_type,
+            platform=platform,
             initial_value=json_data.get(mapping['initial_value'], 0.0),
-            value=json_data.get(mapping['value'], 0.0)
+            value=json_data.get(mapping['value'], 0.0),
+            labels=labels
         )

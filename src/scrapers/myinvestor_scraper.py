@@ -20,11 +20,10 @@ class MyinvestorScraper(Scraper):
     
     def fetch_cash(self):
         r = self.session.get(self.config.endpoints.accounts)
-        return sum([acc['importeCuenta'] for acc in r.json()])
+        return [self._create_fin_prod_from_json(FinProdType.CASH, self.platform, l) for l in r.json()]
 
-    def fetch_funds(self):
-        # Implement mutual funds scraping logic here
-        pass
+    def fetch_funds(self):      
+        return self._fetch_portfolios()
 
     def fetch_etfs(self):
         # Implement ETFs scraping logic here
@@ -41,7 +40,7 @@ class MyinvestorScraper(Scraper):
     
     def fetch_real_estate(self):
         r = self.session.get(self.config.endpoints.real_state)
-        return [self._create_fin_prod_from_json(FinProdType.REAL_ESTATE, l) for l in r.json()]
+        return [self._create_fin_prod_from_json(FinProdType.REAL_ESTATE, self.platform, l) for l in r.json()]
         
     def _setup_session(self, login_url, payload):
         # Create a new aiohttp.ClientSession object
@@ -75,3 +74,20 @@ class MyinvestorScraper(Scraper):
         
         # Return the session object
         return session
+    
+    def _fetch_portfolios(self):
+        r = self.session.get(self.config.endpoints.portfolios)
+        
+        fetched_data = []
+        
+        for l in r.json():
+            tmp_config = self.config.data_mapping[FinProdType.PORTFOLIO]
+            portfolio = self._create_fin_prod_from_json(FinProdType.PORTFOLIO, self.platform, l, labels=tmp_config['id'])            
+            fetched_data.append(portfolio)    
+            #TODO: find a way to fetch funds from the portfolio
+            #fetched_data += self._fetch_funds(l[tmp_config['acc']][tmp_config['funds']], label=tmp_config['id'])       
+        return fetched_data
+    
+    def _fetch_funds(self, funds, label):
+        return [self._create_fin_prod_from_json(FinProdType.FUND, self.platform, f, label) for f in funds]
+        
