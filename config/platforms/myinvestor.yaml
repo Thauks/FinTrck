@@ -11,7 +11,7 @@ endpoints:
   accounts: 'https://app.myinvestor.es/myinvestor-server/rest/protected/cuentas/efectivo'
   portfolios: 'https://app.myinvestor.es/myinvestor-server/rest/protected/inversiones'
   movements: 'https://app.myinvestor.es/myinvestor-server/rest/protected/cuentas/consulta-movimientos-efectivo'
-  positions: 'https://app.myinvestor.es/myinvestor-server/rest/protected/posiciones'
+  stocks: 'https://app.myinvestor.es/ms-broker/v1/acciones/resumen-acciones-cliente'
   real_state: 'https://app.myinvestor.es/urbanitae/v1/users/U109574/allInvestments'
 data_mapping:
   cash:
@@ -25,10 +25,11 @@ data_mapping:
     initial_value: ''
     value: ''
   etf:
-    id: ''
-    name: ''
-    initial_value: ''
-    value: ''
+    id: 'isin'
+    name: 'nombre'
+    initial_value: 'importeInversionPlusvalias'
+    value: 'ValorMercadoPlusvalia'
+    etfs: 'accionesEtfDtoList'
   fund:
     id: 'isin'
     name: 'nombreInversion'

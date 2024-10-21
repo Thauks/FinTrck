@@ -1,5 +1,6 @@
 import requests
 from dataclasses import asdict
+from typing import Any, Dict, List
 
 from src.scrapers.scraper import Scraper
 from src.models.myinvestor import MyinvestorConfig
@@ -16,7 +17,8 @@ class MyinvestorScraper(Scraper):
         self.session = self._setup_session(self.config.endpoints.login, self.config.login_info)
 
     def logout(self):
-        self.session.close()
+        if self.session:
+            self.session.close()
     
     def fetch_cash(self):
         r = self.session.get(self.config.endpoints.accounts)
@@ -26,7 +28,6 @@ class MyinvestorScraper(Scraper):
         return self._fetch_portfolios()
 
     def fetch_etfs(self):
-        # Implement ETFs scraping logic here
         pass
 
     def fetch_stocks(self):
@@ -75,19 +76,33 @@ class MyinvestorScraper(Scraper):
         # Return the session object
         return session
     
-    def _fetch_portfolios(self):
+    def _fetch_portfolios(self) -> List[FinProd]:
         r = self.session.get(self.config.endpoints.portfolios)
+        portfolios_data = r.json()
         
-        fetched_data = []
+        # Assuming your data_mapping is defined for portfolios
+        tmp_config = self.config.data_mapping[FinProdType.PORTFOLIO]
+        fetched_portfolios = [
+            self._create_fin_prod_from_json(FinProdType.PORTFOLIO, self.platform, l, labels=l.get(tmp_config['id'],''))
+            for l in portfolios_data
+        ]
         
-        for l in r.json():
-            tmp_config = self.config.data_mapping[FinProdType.PORTFOLIO]
-            portfolio = self._create_fin_prod_from_json(FinProdType.PORTFOLIO, self.platform, l, labels=tmp_config['id'])            
-            fetched_data.append(portfolio)    
-            #TODO: find a way to fetch funds from the portfolio
-            #fetched_data += self._fetch_funds(l[tmp_config['acc']][tmp_config['funds']], label=tmp_config['id'])       
-        return fetched_data
+        # Adding funds from portfolios
+        fetched_portfolios += self._fetch_funds(portfolios_data, tmp_config['acc'], tmp_config['funds'])
+        
+        return fetched_portfolios
     
-    def _fetch_funds(self, funds, label):
-        return [self._create_fin_prod_from_json(FinProdType.FUND, self.platform, f, label) for f in funds]
+    def _fetch_funds(self, portfolio_data: List[Dict[str, Any]], acc_str: str, funds_str: str) -> List[FinProd]:
+        fetched_funds = []
         
+        tmp_config = self.config.data_mapping[FinProdType.PORTFOLIO]
+        
+        for portfolio in portfolio_data:
+            accs = portfolio.get(acc_str, {})
+            for acc_key, acc_value in accs.items():
+                if isinstance(acc_value, dict):
+                    funds = acc_value.get(funds_str, [])
+                    for fund in funds:
+                        fetched_funds.append(fund)
+                        
+        return [self._create_fin_prod_from_json(FinProdType.FUND, self.platform, f, labels=f.get(tmp_config['id'],'')) for f in fetched_funds]

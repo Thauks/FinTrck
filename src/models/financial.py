@@ -26,4 +26,4 @@ class FinProd:
         return 0.0 if self.initial_value == 0 else (self.value - self.initial_value) / self.initial_value * 100
     
     def __repr__(self):
-        return f"FinProd(id={self.id}, name={self.name}, type={self.type}, platform={self.platform}, initial_value={self.initial_value}, value={self.value}, roi={self.roi:.2f}%)"
+        return f"FinProd(id={self.id}, name={self.name}, type={self.type}, platform={self.platform}, initial_value={self.initial_value}, value={self.value}, roi={self.roi:.2f}%), labels={self.labels}"

@@ -17,7 +17,7 @@ class MyEndpoints:
     accounts: str
     portfolios: str
     movements: str
-    positions: str
+    stocks: str
     real_state: str
 
 @dataclass
