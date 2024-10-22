@@ -1,6 +1,7 @@
 import yaml, os, random
 from src.models.myinvestor import MyinvestorConfig, MyLoginInfo, MyEndpoints
 from src.models.bsonline import BSOnlineConfig
+from src.models.binance import BinanceConfig
 
 def load_myinvestor_config(config_file) -> MyinvestorConfig:
     with open(config_file, 'r') as f:
@@ -21,4 +22,7 @@ def load_myinvestor_config(config_file) -> MyinvestorConfig:
         )
 
 def load_bsonline_config(config_file) -> BSOnlineConfig:
+    pass
+
+def load_binance_config(config_file) -> BinanceConfig:
     pass

@@ -3,4 +3,4 @@ Binance:
     usuario: null
     contrasena: null
   endpoints:
-    login: null
+    login: https://api.binance.com
