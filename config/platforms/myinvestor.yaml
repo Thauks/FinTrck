@@ -28,7 +28,7 @@ data_mapping:
     id: 'isin'
     name: 'nombre'
     initial_value: 'importeInversionPlusvalias'
-    value: 'ValorMercadoPlusvalia'
+    value: 'valorMercadoPlusvalia'
     etfs: 'accionesEtfDtoList'
   fund:
     id: 'isin'

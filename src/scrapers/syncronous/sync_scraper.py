@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Dict, Any
 from src.models.financial import FinProd 
 
-class Scraper(ABC):
+class SyncScraper(ABC):
     def __init__(self, config):
         self.config = config
     

@@ -2,12 +2,12 @@ import requests
 from dataclasses import asdict
 from typing import Any, Dict, List
 
-from src.scrapers.scraper import Scraper
+from src.scrapers.syncronous.sync_scraper import SyncScraper
 from src.models.myinvestor import MyinvestorConfig
 from src.models.financial import FinProdType, FinProd
 from src.models.platforms import Platform
 
-class MyinvestorScraper(Scraper):
+class SyncMyinvestorScraper(SyncScraper):
     def __init__(self, config: MyinvestorConfig):
         super().__init__(config)
         self.session = None
@@ -28,8 +28,14 @@ class MyinvestorScraper(Scraper):
         return self._fetch_portfolios()
 
     def fetch_etfs(self):
-        pass
-
+        r = self.session.get(self.config.endpoints.stocks)
+        tmp_config = self.config.data_mapping[FinProdType.ETF]
+        return [
+            self._create_fin_prod_from_json(FinProdType.ETF, self.platform, etf) 
+            for l in r.json()
+            for etf in l[tmp_config['etfs']] 
+            ]
+        
     def fetch_stocks(self):
         pass
     
