@@ -1,5 +1,6 @@
 import yaml, os, random
 from src.models.myinvestor import MyinvestorConfig, MyLoginInfo, MyEndpoints
+from src.models.bsonline import BSOnlineConfig
 
 def load_myinvestor_config(config_file) -> MyinvestorConfig:
     with open(config_file, 'r') as f:
@@ -18,3 +19,6 @@ def load_myinvestor_config(config_file) -> MyinvestorConfig:
             endpoints=endpoints,
             data_mapping=data['data_mapping']
         )
+
+def load_bsonline_config(config_file) -> BSOnlineConfig:
+    pass

@@ -89,6 +89,15 @@ class AsyncMyinvestorScraper(AsyncScraper):
                 for etf in l[tmp_config['etfs']]  # Extract ETFs from the response
             ]
 
+    async def fetch_stocks(self):
+        pass
+    
+    async def fetch_crypto(self):
+        pass
+    
+    async def fetch_pension_funds(self):
+        pass
+    
     async def fetch_real_estate(self):
         """
         Fetches the real estate investments for the authenticated user.
